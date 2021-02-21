@@ -5,4 +5,8 @@
     <string name="digite_email">Digite seu e-mail</string>
     <string name="btn_logar">Logar</string>
     <string name="imagem_logo">Imagem da Logo</string>
+    <string name="digete_nome">Digite seu nome</string>
+    <string name="bton_cadastrar">Cadastrar</string>
+    <string name="imagem_usuario">Imagem Usuário</string>
+    <string name="txt_nao_tem_conta">Não tem conta? Cadastre-se</string>
 </resources>
