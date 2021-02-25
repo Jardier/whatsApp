@@ -1,7 +1,8 @@
-package com.android.sistemas.whatsapp
+package com.android.sistemas.whatsapp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.android.sistemas.whatsapp.R
 
 class MainActivity : AppCompatActivity() {
 
