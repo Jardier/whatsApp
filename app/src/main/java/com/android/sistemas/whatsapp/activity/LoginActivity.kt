@@ -36,32 +36,39 @@ class LoginActivity : AppCompatActivity() {
         editTextSenha = findViewById(R.id.tieSenha);
         buttonLogar = findViewById(R.id.bntLogar);
 
+        autenticacao = FireBaseConfig.autenticacao;
+
         editTextEmail.requestFocus();
 
         //Ação do botão logar
         buttonLogar.setOnClickListener {
             if(formularioValido()) {
-                autenticacao = FireBaseConfig.autenticacao;
-                    autenticacao.signInWithEmailAndPassword(usuario.email, usuario.senha)
-                        .addOnCompleteListener{task: Task<AuthResult> ->
-                            if(task.isSuccessful) {
-                                exibirTelaPrincipal();
-                            } else {
-                                var excecao : String = "";
-                                try {
-                                    throw task.exception!!;
-                                } catch (e: FirebaseAuthInvalidUserException) {
-                                    excecao = "Usuário não está cadastrado!";
-                                } catch (e : FirebaseAuthInvalidCredentialsException) {
-                                    excecao = "E-mail e/ou senha não correspondem a um usuário cadastrado!";
-                                } catch (e : Exception) {
-                                    excecao = "Ocorreu um erro ao logar o usuário. Erro: ${e.message}";
-                                }
-                                Toast.makeText(this, excecao, Toast.LENGTH_LONG).show();
+                autenticacao.signInWithEmailAndPassword(usuario.email, usuario.senha)
+                    .addOnCompleteListener{task: Task<AuthResult> ->
+                        if(task.isSuccessful) {
+                            exibirTelaPrincipal();
+                        } else {
+                            var excecao : String = "";
+                            try {
+                                throw task.exception!!;
+                            } catch (e: FirebaseAuthInvalidUserException) {
+                                excecao = "Usuário não está cadastrado!";
+                            } catch (e : FirebaseAuthInvalidCredentialsException) {
+                                excecao = "E-mail e/ou senha não correspondem a um usuário cadastrado!";
+                            } catch (e : Exception) {
+                                excecao = "Ocorreu um erro ao logar o usuário. Erro: ${e.message}";
                             }
+                            Toast.makeText(this, excecao, Toast.LENGTH_LONG).show();
                         }
+                    }
             }
         }
+    }
+
+    //Sobrescrevendo o Método para verificar se existe um usuário Logado
+    override fun onStart() {
+        super.onStart();
+        verificarUsuarioLogado();
     }
 
     fun exibirTelaCadastro(view : View) {
@@ -87,5 +94,11 @@ class LoginActivity : AppCompatActivity() {
     private fun exibirTelaPrincipal() {
         val intent = Intent(this, MainActivity::class.java);
         startActivity(intent);
+    }
+
+    private fun verificarUsuarioLogado() {
+        if(autenticacao.currentUser != null) {
+            exibirTelaPrincipal();
+        }
     }
 }
