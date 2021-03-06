@@ -9,4 +9,7 @@
     <string name="bton_cadastrar">Cadastrar</string>
     <string name="imagem_usuario">Imagem Usuário</string>
     <string name="txt_nao_tem_conta">Não tem conta? Cadastre-se</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="configuracoes">Configurações</string>
+    <string name="sair">Sair</string>
 </resources>
