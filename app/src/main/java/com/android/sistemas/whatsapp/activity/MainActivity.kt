@@ -3,17 +3,26 @@ package com.android.sistemas.whatsapp.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
+
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.viewpager.widget.ViewPager
 import com.android.sistemas.whatsapp.R
 import com.android.sistemas.whatsapp.config.FireBaseConfig
+import com.android.sistemas.whatsapp.fragment.ContatosFragment
+import com.android.sistemas.whatsapp.fragment.ConversasFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.ogaclejapan.smarttablayout.SmartTabLayout
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbarPrincipal: Toolbar;
+    private lateinit var smartTabLayout: SmartTabLayout;
+    private lateinit var viewPager: ViewPager;
+
     private lateinit var autenticacao : FirebaseAuth;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +34,18 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbarPrincipal);
 
         autenticacao = FireBaseConfig.autenticacao;
+        smartTabLayout = findViewById(R.id.smartTabLayout);
+        viewPager = findViewById(R.id.viewPager);
+
+
+        //Configurando a SmartTabLayout
+        var adapter = FragmentPagerItemAdapter(supportFragmentManager, FragmentPagerItems.with(this)
+            .add(R.string.contatos, ContatosFragment::class.java)
+            .add(R.string.conversas, ConversasFragment::class.java)
+            .create());
+
+        viewPager.adapter = adapter;
+        smartTabLayout.setViewPager(viewPager);
     }
 
     //Inserindo o menu

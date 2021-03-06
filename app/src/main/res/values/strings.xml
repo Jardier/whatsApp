@@ -12,4 +12,6 @@
     <string name="pesquisar">Pesquisar</string>
     <string name="configuracoes">Configurações</string>
     <string name="sair">Sair</string>
+    <string name="contatos">Contatos</string>
+    <string name="conversas">Conversas</string>
 </resources>
