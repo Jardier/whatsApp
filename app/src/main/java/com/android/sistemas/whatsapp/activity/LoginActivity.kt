@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
                         if(task.isSuccessful) {
                             exibirTelaPrincipal();
                         } else {
-                            var excecao : String = "";
+                            var excecao : String;
                             try {
                                 throw task.exception!!;
                             } catch (e: FirebaseAuthInvalidUserException) {

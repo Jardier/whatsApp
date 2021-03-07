@@ -14,4 +14,6 @@
     <string name="sair">Sair</string>
     <string name="contatos">Contatos</string>
     <string name="conversas">Conversas</string>
+    <string name="nome_usuario">Nome do Usuário</string>
+    <string name="mensagem_usuario">Esse não é o nome de usuário nem sua senha. Esse nome ficará visível para seus contatos do WhatsApp</string>
 </resources>
