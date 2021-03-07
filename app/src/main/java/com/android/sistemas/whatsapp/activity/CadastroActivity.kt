@@ -54,7 +54,7 @@ class CadastroActivity : AppCompatActivity() {
                             usuario.salvar();
                             finish();
                         } else {
-                            var excecao : String = "";
+                            var excecao: String;
                             try {
                                 throw task.exception!!;
                             } catch (e : FirebaseAuthWeakPasswordException) {

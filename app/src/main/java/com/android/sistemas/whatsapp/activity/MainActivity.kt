@@ -1,5 +1,6 @@
 package com.android.sistemas.whatsapp.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Menu Pesquisa", Toast.LENGTH_LONG).show();
             }
             R.id.menuConfiguracoes -> {
-                Toast.makeText(this, "Menu Configurações", Toast.LENGTH_LONG).show();
+                abrirTelaConfiguracoes();
 
             }
             R.id.menuSair -> {
@@ -81,5 +82,9 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace();
         }
+    }
+    private fun abrirTelaConfiguracoes() {
+        val intent = Intent(this, ConfiguracoesActivity::class.java);
+        startActivity(intent);
     }
 }
