@@ -7,7 +7,7 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-class Usuario constructor(var idUsuario : String = ""
+class Usuario constructor(@get: Exclude var idUsuario : String = ""
                         , var nome : String = ""
                         , var email : String = ""
                         , @get: Exclude var senha : String = "") {
@@ -26,7 +26,7 @@ class Usuario constructor(var idUsuario : String = ""
                 if(task.isSuccessful) {
                     Log.i(Usuario.PATH, "Dados do usuário salvo com sucesso.")
                 } else {
-                    Log.e(Usuario.PATH, task.exception.toString());
+                    throw task.exception!!
                 }
             }
     }

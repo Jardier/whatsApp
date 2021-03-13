@@ -51,8 +51,15 @@ class CadastroActivity : AppCompatActivity() {
                             //salvar dados do usuário
                             val idUsuario : String = Base64Custom.codificarBase64(usuario.email);
                             usuario.idUsuario = idUsuario;
-                            usuario.salvar();
-                            finish();
+                            try {
+                                usuario.salvar();
+                                finish()
+
+                            } catch (e : Exception) {
+                                Toast.makeText(this, "Ocorreu um erro ao salvar os dados do usuário!", Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+
                         } else {
                             var excecao: String;
                             try {
