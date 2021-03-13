@@ -3,7 +3,7 @@
     package="com.android.sistemas.whatsapp">
 
     <!--Permissões -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <!--Recuros necessário para a aplicação -->

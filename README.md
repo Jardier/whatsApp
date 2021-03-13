@@ -11,10 +11,16 @@
     - Criando usuário (email/senha)
     - Recuperando usuário logado
 - Firebase Realtime Database
+    - Salvando dados Usuário	
 - Validação de campos
 - Exception
 - Toolbar
   - Menus
 - Abas
   - Fragments
+- Sistemas de Pemissões 
+  - Android Marshmallow
+- Recursos
+  - Recuperando fotos tiradas via Câmera 
+  - Recuperando fotos da Galeria
 
