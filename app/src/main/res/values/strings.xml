@@ -17,5 +17,7 @@
     <string name="nome_usuario">Nome do Usuário</string>
     <string name="mensagem_usuario">Esse não é o nome de usuário nem sua senha. Esse nome ficará visível para seus contatos do WhatsApp</string>
     <string name="sim">SIM</string>
+    <string name="imagem_camera">Imagem Camera</string>
+    <string name="imagem_galeria">Imagem Galeria</string>
 
 </resources>
