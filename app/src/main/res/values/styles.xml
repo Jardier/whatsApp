@@ -9,7 +9,7 @@
     </style>
 
     <!-- Theme Toobar -->
-    <style name="Toolbar" parent="Theme.AppCompat.NoActionBar">
-
-    </style>
+    <style name="Toolbar" parent="Theme.AppCompat.NoActionBar" />
+    <!-- Theme Popup Menu -->
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
