@@ -1,0 +1,11 @@
+package com.android.sistemas.whatsapp.helper
+
+class Constantes {
+
+    companion object{
+        const val REQUEST_CODE : Int = 1;
+        const val REQUEST_CODE_CAMERA : Int = 100;
+        const val REQUEST_CODE_GALERIA : Int = 200;
+        const val SDK_MARSHMALLOW : Int = 21;
+    }
+}

@@ -14,12 +14,11 @@ import kotlin.collections.ArrayList
 class Permissao {
 
     companion object{
-        private const val SDK_MARSHMALLOW = 21;
 
         fun validarPermissoes(permissoes : ArrayList<String>, activity: Activity, requestCode : Int) : Boolean{
 
             //Verifica a versão do SDK
-            if(Build.VERSION.SDK_INT >= SDK_MARSHMALLOW) {
+            if(Build.VERSION.SDK_INT >= Constantes.SDK_MARSHMALLOW) {
                 val listaPermissoes : ArrayList<String> = ArrayList();
 
                 permissoes.forEach {permissao : String ->

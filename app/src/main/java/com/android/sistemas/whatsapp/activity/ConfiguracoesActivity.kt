@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import com.android.sistemas.whatsapp.R
+import com.android.sistemas.whatsapp.helper.Constantes
 import com.android.sistemas.whatsapp.helper.Permissao
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_configuracoes.*
@@ -35,12 +36,6 @@ class ConfiguracoesActivity : AppCompatActivity() {
     private lateinit var botaoCamera : ImageButton;
     private lateinit var botaoGaleria : ImageButton;
     private lateinit var imagemPerfil : CircleImageView;
-
-    companion object{
-         const val REQUEST_CODE : Int = 1;
-         const val REQUEST_CODE_CAMERA : Int = 100;
-         const val REQUEST_CODE_GALERIA : Int = 200;
-     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,14 +55,14 @@ class ConfiguracoesActivity : AppCompatActivity() {
         permissoesNecessarias = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
 
         //Validar Permissões
-        Permissao.validarPermissoes(permissoesNecessarias, this, REQUEST_CODE);
+        Permissao.validarPermissoes(permissoesNecessarias, this, Constantes.REQUEST_CODE);
 
         //Ação botão câmera
         botaoCamera.setOnClickListener(View.OnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
             if(intent.resolveActivity(packageManager) != null) {
-                startActivityForResult(intent, REQUEST_CODE_CAMERA);
+                startActivityForResult(intent, Constantes.REQUEST_CODE_CAMERA);
             }
         });
 
@@ -76,7 +71,7 @@ class ConfiguracoesActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
             if(intent.resolveActivity(packageManager) != null) {
-                startActivityForResult(intent, REQUEST_CODE_GALERIA);
+                startActivityForResult(intent, Constantes.REQUEST_CODE_GALERIA);
             }
         })
     }
@@ -91,10 +86,10 @@ class ConfiguracoesActivity : AppCompatActivity() {
 
             try{
                 when(requestCode) {
-                    REQUEST_CODE_CAMERA -> {
+                    Constantes.REQUEST_CODE_CAMERA -> {
                         imagem = data?.extras?.get("data") as Bitmap
                     }
-                    REQUEST_CODE_GALERIA -> {
+                    Constantes.REQUEST_CODE_GALERIA -> {
                       val localImagemSelecionada  =  data?.data ;
                       val source = ImageDecoder.createSource(this.contentResolver,localImagemSelecionada!!);
                         imagem = ImageDecoder.decodeBitmap(source);
