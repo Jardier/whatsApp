@@ -18,15 +18,24 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.content.res.AppCompatResources
+
 import androidx.appcompat.widget.Toolbar
 import com.android.sistemas.whatsapp.R
+import com.android.sistemas.whatsapp.config.FireBaseConfig
 import com.android.sistemas.whatsapp.helper.Constantes
+import com.android.sistemas.whatsapp.helper.MessageCustom
 import com.android.sistemas.whatsapp.helper.Permissao
+import com.android.sistemas.whatsapp.helper.UsuarioFireBase
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_configuracoes.*
+import java.io.ByteArrayOutputStream
 import java.lang.Exception
 
 class ConfiguracoesActivity : AppCompatActivity() {
@@ -36,6 +45,8 @@ class ConfiguracoesActivity : AppCompatActivity() {
     private lateinit var botaoCamera : ImageButton;
     private lateinit var botaoGaleria : ImageButton;
     private lateinit var imagemPerfil : CircleImageView;
+
+    private lateinit var storage : StorageReference;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +60,8 @@ class ConfiguracoesActivity : AppCompatActivity() {
         botaoGaleria = findViewById(R.id.btnGaleria);
         botaoCamera = findViewById(R.id.btnCamera);
         imagemPerfil = findViewById(R.id.civFotoPerfil);
+
+        storage = FireBaseConfig.storage;
 
 
         //Permissões Necessárias
@@ -96,6 +109,12 @@ class ConfiguracoesActivity : AppCompatActivity() {
                     }
                 }
                 imagemPerfil.setImageBitmap(imagem);
+                try {
+                    salvarImagemPerfil(imagem);
+                    MessageCustom.messagem("Sucesso ao fazer upload da imagem", this);
+                } catch (e : Exception) {
+                    MessageCustom.messagem("Erro ao fazer upload da imagem", this)
+                }
 
 
 
@@ -128,6 +147,22 @@ class ConfiguracoesActivity : AppCompatActivity() {
         });
         val dialog : AlertDialog = builder.create();
         dialog.show();
+    }
+    private fun salvarImagemPerfil(imagem : Bitmap) {
+        val baos : ByteArrayOutputStream = ByteArrayOutputStream();
+        imagem.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+        val dadosImagem = baos.toByteArray();
+
+        val imagemReference = storage.child(Constantes.PATH_IMAGENS)
+            .child(Constantes.PATH_PERFIL)
+            .child(UsuarioFireBase.identificadorUsuario().plus(".jpeg"));
+
+        val uploadTask: UploadTask = imagemReference.putBytes(dadosImagem);
+        uploadTask.addOnFailureListener { exception ->
+            Log.e("CONFIGURACOES", exception.message);
+            exception.stackTrace;
+            throw  exception;
+        };
 
     }
 }
