@@ -3,6 +3,7 @@ package com.android.sistemas.whatsapp.helper
 import android.net.Uri
 import android.util.Log
 import com.android.sistemas.whatsapp.config.FireBaseConfig
+import com.android.sistemas.whatsapp.model.Usuario
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import java.lang.Exception
@@ -59,6 +60,19 @@ class UsuarioFireBase {
                 e.printStackTrace();
                 return false;
             }
+        }
+
+        fun getDadosUsuarioLogado () : Usuario {
+            val usuario = Usuario();
+            val user = getUsuarioAtual();
+            usuario.email = user?.email.toString();
+            usuario.nome = user?.displayName.toString();
+
+            if(user?.photoUrl != null) {
+                usuario.foto =   user?.photoUrl.toString();
+            }
+
+            return usuario;
         }
     }
 }

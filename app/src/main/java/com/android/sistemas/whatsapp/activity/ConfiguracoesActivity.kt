@@ -20,6 +20,8 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 
@@ -30,6 +32,7 @@ import com.android.sistemas.whatsapp.helper.Constantes
 import com.android.sistemas.whatsapp.helper.MessageCustom
 import com.android.sistemas.whatsapp.helper.Permissao
 import com.android.sistemas.whatsapp.helper.UsuarioFireBase
+import com.android.sistemas.whatsapp.model.Usuario
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.StorageReference
@@ -47,9 +50,12 @@ class ConfiguracoesActivity : AppCompatActivity() {
     private lateinit var botaoGaleria : ImageButton;
     private lateinit var imagemPerfil : CircleImageView;
     private lateinit var perfilNome: EditText
+    private lateinit var botaoEditPerfil : ImageView;
 
     private lateinit var storage : StorageReference;
     private lateinit var usuarioFireBase: FirebaseUser;
+    private lateinit var usuarioLogado: Usuario
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,17 +70,26 @@ class ConfiguracoesActivity : AppCompatActivity() {
         botaoCamera = findViewById(R.id.btnCamera);
         imagemPerfil = findViewById(R.id.civFotoPerfil);
         perfilNome = findViewById(R.id.etvPerfilNome);
+        botaoEditPerfil = findViewById(R.id.ivEditPerfil);
 
         storage = FireBaseConfig.storage;
+        usuarioLogado = UsuarioFireBase.getDadosUsuarioLogado();
 
         //Recuperar o Usuário
         usuarioFireBase = UsuarioFireBase.getUsuarioAtual()!!;
         val uri = usuarioFireBase.photoUrl;
 
         if(uri != null) {
-            Glide.with(this)
-                .load(uri)
-                .into(imagemPerfil);
+            try {
+                Glide.with(this)
+                    .load(uri)
+                    .into(imagemPerfil);
+
+            } catch (e : Exception) {
+                MessageCustom.messagem("Ocorreu um erro ao carregar imagem do perfil: ${e.message}", this);
+                e.printStackTrace();
+            }
+
         } else {
             imagemPerfil.setImageResource(R.drawable.padrao);
         }
@@ -103,6 +118,18 @@ class ConfiguracoesActivity : AppCompatActivity() {
 
             if(intent.resolveActivity(packageManager) != null) {
                 startActivityForResult(intent, Constantes.REQUEST_CODE_GALERIA);
+            }
+        })
+
+        //Ação botão Editar Perfil
+        botaoEditPerfil.setOnClickListener(View.OnClickListener {
+            val nomeUsuario : String =  perfilNome.text.toString();
+
+            if(UsuarioFireBase.setNomeUsuario(nomeUsuario)) {
+                usuarioLogado.nome = nomeUsuario;
+                usuarioLogado.atualizar();
+
+                MessageCustom.messagem("Perfil do usuário atualizado com sucesso.", this);
             }
         })
     }
@@ -188,6 +215,10 @@ class ConfiguracoesActivity : AppCompatActivity() {
     }
 
     private fun atualizarFotoUsuario(uri: Uri?) {
-        UsuarioFireBase.setFotoUsuario(uri);
+        if(UsuarioFireBase.setFotoUsuario(uri)) {
+            usuarioLogado.foto = uri.toString();
+            usuarioLogado.atualizar();
+            MessageCustom.messagem("Sua foto foi alterada.", this);
+        }
     }
 }
