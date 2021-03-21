@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.net.Uri
 
 
 import android.os.Build
@@ -17,8 +18,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 
@@ -29,8 +30,8 @@ import com.android.sistemas.whatsapp.helper.Constantes
 import com.android.sistemas.whatsapp.helper.MessageCustom
 import com.android.sistemas.whatsapp.helper.Permissao
 import com.android.sistemas.whatsapp.helper.UsuarioFireBase
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.storage.FirebaseStorage
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import de.hdodenhof.circleimageview.CircleImageView
@@ -45,8 +46,10 @@ class ConfiguracoesActivity : AppCompatActivity() {
     private lateinit var botaoCamera : ImageButton;
     private lateinit var botaoGaleria : ImageButton;
     private lateinit var imagemPerfil : CircleImageView;
+    private lateinit var perfilNome: EditText
 
     private lateinit var storage : StorageReference;
+    private lateinit var usuarioFireBase: FirebaseUser;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +63,23 @@ class ConfiguracoesActivity : AppCompatActivity() {
         botaoGaleria = findViewById(R.id.btnGaleria);
         botaoCamera = findViewById(R.id.btnCamera);
         imagemPerfil = findViewById(R.id.civFotoPerfil);
+        perfilNome = findViewById(R.id.etvPerfilNome);
 
         storage = FireBaseConfig.storage;
+
+        //Recuperar o Usuário
+        usuarioFireBase = UsuarioFireBase.getUsuarioAtual()!!;
+        val uri = usuarioFireBase.photoUrl;
+
+        if(uri != null) {
+            Glide.with(this)
+                .load(uri)
+                .into(imagemPerfil);
+        } else {
+            imagemPerfil.setImageResource(R.drawable.padrao);
+        }
+        perfilNome.setText(usuarioFireBase.displayName);
+
 
 
         //Permissões Necessárias
@@ -116,8 +134,6 @@ class ConfiguracoesActivity : AppCompatActivity() {
                     MessageCustom.messagem("Erro ao fazer upload da imagem", this)
                 }
 
-
-
             } catch (e : Exception) {
                 Log.e("CONFIGURACOES", e.message);
                 e.printStackTrace();
@@ -155,14 +171,23 @@ class ConfiguracoesActivity : AppCompatActivity() {
 
         val imagemReference = storage.child(Constantes.PATH_IMAGENS)
             .child(Constantes.PATH_PERFIL)
-            .child(UsuarioFireBase.identificadorUsuario().plus(".jpeg"));
+            .child(UsuarioFireBase.getIdentificadorUsuario().plus(".jpeg"));
 
         val uploadTask: UploadTask = imagemReference.putBytes(dadosImagem);
         uploadTask.addOnFailureListener { exception ->
             Log.e("CONFIGURACOES", exception.message);
             exception.stackTrace;
             throw  exception;
+        }.addOnSuccessListener { listener ->
+            imagemReference.downloadUrl.addOnCompleteListener{task ->
+                val uri : Uri? =  task.result;
+                atualizarFotoUsuario(uri);//ao carregar imagem, vamos atualizar no FireBase Perfil
+            }
         };
 
+    }
+
+    private fun atualizarFotoUsuario(uri: Uri?) {
+        UsuarioFireBase.setFotoUsuario(uri);
     }
 }

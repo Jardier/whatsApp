@@ -11,6 +11,7 @@ import com.android.sistemas.whatsapp.R
 import com.android.sistemas.whatsapp.config.FireBaseConfig
 import com.android.sistemas.whatsapp.helper.Base64Custom
 import com.android.sistemas.whatsapp.helper.MessageCustom
+import com.android.sistemas.whatsapp.helper.UsuarioFireBase
 import com.android.sistemas.whatsapp.model.Usuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -53,7 +54,13 @@ class CadastroActivity : AppCompatActivity() {
                             usuario.idUsuario = idUsuario;
                             try {
                                 usuario.salvar();
-                                finish()
+
+                                if(UsuarioFireBase.setNomeUsuario(usuario.nome)) {
+                                   MessageCustom.messagem("Perfil do usuário salvos com sucesso", this);
+                                } else {
+                                    MessageCustom.messagem("Ocorreu um erro ao salval o pPerfil do usuário!", this);
+                                }
+                                finish();
 
                             } catch (e : Exception) {
                                 Toast.makeText(this, "Ocorreu um erro ao salvar os dados do usuário!", Toast.LENGTH_LONG).show();
