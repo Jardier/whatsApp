@@ -1,5 +1,6 @@
 package com.android.sistemas.whatsapp.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,15 +12,19 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.sistemas.whatsapp.R
+import com.android.sistemas.whatsapp.activity.ChatActivity
 import com.android.sistemas.whatsapp.adapter.ContatosAdapter
 import com.android.sistemas.whatsapp.config.FireBaseConfig
 import com.android.sistemas.whatsapp.helper.Constantes
+import com.android.sistemas.whatsapp.helper.RecyclerItemClickListener
+import com.android.sistemas.whatsapp.helper.UsuarioFireBase
 import com.android.sistemas.whatsapp.model.Usuario
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
-import java.util.*
+
 import kotlin.collections.ArrayList
 
 class ContatosFragment : Fragment() {
@@ -28,11 +33,13 @@ class ContatosFragment : Fragment() {
     private lateinit var listaContatos : ArrayList<Usuario>;
 
     private lateinit var usuarioRef : DatabaseReference;
-    private lateinit var contatosEventListener : ValueEventListener
+    private lateinit var contatosEventListener : ValueEventListener;
+    private lateinit var usuarioLogado : FirebaseUser;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -43,7 +50,8 @@ class ContatosFragment : Fragment() {
 
         recyclerViewListaContatos = view.findViewById(R.id.recyclerViewListaContatos);
         listaContatos = ArrayList();
-        usuarioRef = FireBaseConfig.reference.child(Constantes.PATH_USUARIOS)
+        usuarioRef = FireBaseConfig.reference.child(Constantes.PATH_USUARIOS);
+        usuarioLogado = UsuarioFireBase.getUsuarioAtual()!!;
 
         //criar um adapter
         val adapter = ContatosAdapter(listaContatos);
@@ -53,6 +61,20 @@ class ContatosFragment : Fragment() {
         recyclerViewListaContatos.setHasFixedSize(true);
         recyclerViewListaContatos.addItemDecoration((DividerItemDecoration(activity, LinearLayout.VERTICAL)));
         recyclerViewListaContatos.adapter = adapter;
+
+        //Configurar evento de click no recyclerView
+        recyclerViewListaContatos.addOnItemTouchListener(RecyclerItemClickListener(activity, recyclerViewListaContatos, object : RecyclerItemClickListener.OnItemClickListener{
+            override fun onItemClick(view: View, position: Int) {
+                //abrir activity de chat
+                val intent = Intent(activity, ChatActivity::class.java);
+                startActivity(intent);
+            }
+
+            override fun onItemLongClick(view: View, position: Int) {
+                TODO("Not yet implemented")
+            }
+
+        }))
 
         return view;
     }
@@ -73,7 +95,11 @@ class ContatosFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach{
                     var usuario = it.getValue<Usuario>(Usuario::class.java)!!
-                    listaContatos.add(usuario);
+
+                    //Removendo o usuário logado da lista de contatos
+                    if(!usuario.email.equals(usuarioLogado.email)) {
+                        listaContatos.add(usuario);
+                    }
                 }
                 recyclerViewListaContatos.adapter!!.notifyDataSetChanged();
             }
