@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         //Configurando a SmartTabLayout
         var adapter = FragmentPagerItemAdapter(supportFragmentManager, FragmentPagerItems.with(this)
-            .add(R.string.contatos, ContatosFragment::class.java)
             .add(R.string.conversas, ConversasFragment::class.java)
+            .add(R.string.contatos, ContatosFragment::class.java)
             .create());
 
         viewPager.adapter = adapter;

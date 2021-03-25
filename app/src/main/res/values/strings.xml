@@ -19,5 +19,9 @@
     <string name="sim">SIM</string>
     <string name="imagem_camera">Imagem Camera</string>
     <string name="imagem_galeria">Imagem Galeria</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nome">Nome</string>
+    <string name="email">email</string>
 
 </resources>
