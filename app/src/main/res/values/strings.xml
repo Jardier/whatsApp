@@ -21,5 +21,7 @@
     <string name="imagem_galeria">Imagem Galeria</string>
     <string name="nome">Nome</string>
     <string name="email">email</string>
+    <string name="imagem_enviar">Imagem Enviar</string>
+    <string name="digite_mensagem">Digite uma mensagem</string>
 
 </resources>

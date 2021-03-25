@@ -17,14 +17,9 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.title = "Chat";
+        toolbar.title = "";
         setSupportActionBar(toolbar);
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
 
-
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
     }
 }
