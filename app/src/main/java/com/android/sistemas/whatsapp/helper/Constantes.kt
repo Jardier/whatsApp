@@ -10,5 +10,6 @@ class Constantes {
         const val PATH_IMAGENS : String = "imagens";
         const val PATH_PERFIL : String = "perfil";
         const val PATH_USUARIOS = "usuarios";
+        const val PATH_MENSAGENS = "mensagens";
     }
 }
