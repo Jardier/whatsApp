@@ -19,16 +19,17 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civChatFoto"
+                android:id="@+id/civFotoContatoChat"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/padrao" />
 
             <TextView
+                android:id="@+id/txvNomeContatoChat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jardier"
+                android:text="@string/jardier"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />

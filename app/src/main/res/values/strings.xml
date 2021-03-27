@@ -23,5 +23,7 @@
     <string name="email">email</string>
     <string name="imagem_enviar">Imagem Enviar</string>
     <string name="digite_mensagem">Digite uma mensagem</string>
+    <string name="imagem_divisor">imagem divisor</string>
+    <string name="jardier">Jardier</string>
 
 </resources>

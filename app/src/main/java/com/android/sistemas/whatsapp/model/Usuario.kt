@@ -7,6 +7,7 @@ import com.android.sistemas.whatsapp.helper.UsuarioFireBase
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
+import java.io.Serializable
 import kotlin.collections.HashMap
 
 @IgnoreExtraProperties
@@ -14,7 +15,7 @@ class Usuario constructor(@get: Exclude var idUsuario : String = ""
                         , var nome : String = ""
                         , var email : String = ""
                         , @get: Exclude var senha : String = ""
-                        , var foto : String = "") {
+                        , var foto : String = "") : Serializable {
 
 
     fun salvar() {

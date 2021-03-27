@@ -35,6 +35,7 @@ class ContatosFragment : Fragment() {
     private lateinit var usuarioRef : DatabaseReference;
     private lateinit var contatosEventListener : ValueEventListener;
     private lateinit var usuarioLogado : FirebaseUser;
+    private lateinit var contatoSelecionado : Usuario;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +67,10 @@ class ContatosFragment : Fragment() {
         recyclerViewListaContatos.addOnItemTouchListener(RecyclerItemClickListener(activity, recyclerViewListaContatos, object : RecyclerItemClickListener.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 //abrir activity de chat
+                contatoSelecionado = listaContatos.get(position);
+
                 val intent = Intent(activity, ChatActivity::class.java);
+                intent.putExtra("CONTATO", contatoSelecionado);
                 startActivity(intent);
             }
 
