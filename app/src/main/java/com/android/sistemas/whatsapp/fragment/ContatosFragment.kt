@@ -97,6 +97,8 @@ class ContatosFragment : Fragment() {
     private fun recuperarContatos() {
         contatosEventListener = usuarioRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                listaContatos.clear(); //garantir que a lista esteja vazia
+
                 dataSnapshot.children.forEach{
                     var usuario = it.getValue<Usuario>(Usuario::class.java)!!
 

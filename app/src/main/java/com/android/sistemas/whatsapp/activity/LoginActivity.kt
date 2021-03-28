@@ -47,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener{task: Task<AuthResult> ->
                         if(task.isSuccessful) {
                             exibirTelaPrincipal();
+                            limparCampos();
                         } else {
                             var excecao : String;
                             try {
@@ -100,5 +101,11 @@ class LoginActivity : AppCompatActivity() {
         if(autenticacao.currentUser != null) {
             exibirTelaPrincipal();
         }
+    }
+
+    private fun limparCampos() {
+        editTextEmail.text.clear();
+        editTextSenha.text.clear();
+        editTextEmail.requestFocus();
     }
 }
