@@ -91,7 +91,7 @@ class ChatActivity : AppCompatActivity() {
         //configurar o adpater
         recyclerViewMensagens.layoutManager = LinearLayoutManager(this);
         recyclerViewMensagens.setHasFixedSize(true);
-        recyclerViewMensagens.addItemDecoration((DividerItemDecoration(this, LinearLayout.VERTICAL)));
+        recyclerViewMensagens.addItemDecoration((DividerItemDecoration(this, 0)));
         recyclerViewMensagens.adapter = adapter;
 
 

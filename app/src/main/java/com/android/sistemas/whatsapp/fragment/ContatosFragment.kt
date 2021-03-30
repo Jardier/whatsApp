@@ -60,7 +60,7 @@ class ContatosFragment : Fragment() {
         //configurar o recyclerView
         recyclerViewListaContatos.layoutManager = LinearLayoutManager(activity);
         recyclerViewListaContatos.setHasFixedSize(true);
-        recyclerViewListaContatos.addItemDecoration((DividerItemDecoration(activity, LinearLayout.VERTICAL)));
+        recyclerViewListaContatos.addItemDecoration((DividerItemDecoration(activity, 0)));
         recyclerViewListaContatos.adapter = adapter;
 
         //Configurar evento de click no recyclerView
