@@ -9,7 +9,9 @@ class Constantes {
         const val SDK_MARSHMALLOW : Int = 21;
         const val PATH_IMAGENS : String = "imagens";
         const val PATH_PERFIL : String = "perfil";
-        const val PATH_USUARIOS = "usuarios";
-        const val PATH_MENSAGENS = "mensagens";
+        const val PATH_USUARIOS: String = "usuarios";
+        const val PATH_MENSAGENS: String = "mensagens";
+        const val TIPO_REMETENTE: Int = 0;
+        const val TIPO_DESTINATARIO: Int = 1;
     }
 }
